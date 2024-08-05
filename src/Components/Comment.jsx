@@ -12,7 +12,7 @@ const Comment = ({ id, comment, replies }) => {
     <>
       <div className="comment flex flex-col  bg-gray-800 w-2/5 p-12  rounded-xl ">
         <div className="comment-wrapper flex flex-col gap-5 ">
-          <h1 className="text-3xl font-bold ">Comments</h1>
+          <h1 className="text-3xl font-bold ">Comments with id : {id}</h1>
           <div className="input-field flex gap-4 w-full justify-between">
             <InputBox text={"Add a comment..."} display={null} />
             <button className="btn btn-outline btn-success ">Submit</button>
