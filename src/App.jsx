@@ -20,7 +20,7 @@ const App = () => {
     <div className="comment-container bg-slate-700 flex flex-col h-full items-center justify-center gap-5 ">
       {COMMENT_DATA.map((comment, index) => (
         <Comment
-        key={index}
+          key={index}
           comment={comment.comment}
           replies={comment.replies}
           id={comment.id}
