@@ -1,7 +1,7 @@
 import React from "react";
 import InputBox from "./InputBox";
 
-const Comment = ({ id, comment, reply }) => {
+const Comment = ({ id, comment, replies }) => {
   return (
     <>
       <div className="comment flex flex-col  bg-gray-800 w-2/5 p-12  rounded-xl ">
@@ -13,12 +13,20 @@ const Comment = ({ id, comment, reply }) => {
           </div>
         </div>
 
-        <div className="reply-wrapper  p-4">
-          <h2>{comment}</h2>
-          <p>{reply}</p>
-          <div className="buttons flex flex-col justify-end">
+        <div className="reply-wrapper my-4 ">
+          <div className="reply-data flex items-center ">
+            <div className="reply-text w-full bg-gray-700 p-2 rounded-lg">
+              <h2>{comment}</h2>
+              <div className="replied p-2 w-full">
+                {replies.map((reply, index) => (
+                  <p key={index}>{reply}</p>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="buttons flex gap-4 my-2">
             <button className="reply text-blue-400">Reply</button>
-            <button className="delete">Delete</button>
+            <button className="delete text-red-500">Delete</button>
           </div>
         </div>
       </div>
