@@ -4,7 +4,7 @@ import InputBox from "./InputBox";
 const Comment = ({ id, comment, replies }) => {
   const [replyToggle, setReplyToggle] = useState(false);
   function handleReplyToggle() {
-    console.log(replyToggle)
+    console.log(replyToggle);
     setReplyToggle(!replyToggle);
   }
 
@@ -15,7 +15,7 @@ const Comment = ({ id, comment, replies }) => {
           <h1 className="text-3xl font-bold ">Comments with id : {id}</h1>
           <div className="input-field flex gap-4 w-full justify-between">
             <InputBox text={"Add a comment..."} display={null} />
-            <button className="btn btn-outline btn-success ">Submit</button>
+            <button className="btn btn-outline btn-success ">Comment</button>
           </div>
         </div>
 
@@ -33,11 +33,11 @@ const Comment = ({ id, comment, replies }) => {
           </div>
           <div className="buttons flex gap-4 my-2">
             <button className="reply text-blue-400" onClick={handleReplyToggle}>
-              Reply
+              {replyToggle ? "Cancel" : "Reply"}
             </button>
             <button className="delete text-red-500">Delete</button>
           </div>
-          <InputBox text="reply.." display={ replyToggle ? null : "hidden"} />
+          <InputBox text="reply.." display={replyToggle ? null : "hidden"} />
         </div>
       </div>
     </>
