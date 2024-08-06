@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import InputBox from "./InputBox";
 
+import { useDispatch } from "react-redux";
+
 const Comment = ({ id, comment, replies }) => {
+  const dispatch = useDispatch();
+
   const [replyToggle, setReplyToggle] = useState(false);
   function handleReplyToggle() {
     console.log(replyToggle);
@@ -10,19 +14,14 @@ const Comment = ({ id, comment, replies }) => {
 
   return (
     <>
-      <div className="comment flex flex-col  bg-gray-800 w-2/5 p-12  rounded-xl ">
-        <div className="comment-wrapper flex flex-col gap-5 ">
-          <h1 className="text-3xl font-bold ">Comments with id : {id}</h1>
-          <div className="input-field flex gap-4 w-full justify-between">
-            <InputBox text={"Add a comment..."} display={null} />
-            <button className="btn btn-outline btn-success ">Comment</button>
-          </div>
-        </div>
-
-        <div className="reply-wrapper my-4 ">
+      <div className="comment-reply flex flex-col   bg-gray-800 w-2/5 p-10  rounded-xl ">
+        <div className="reply-wrapper my-2 ">
+          <p className="bg-slate-600 rounded-xl p-2 text-yellow-500 mb-6">
+          {comment}
+          </p>
           <div className="reply-data flex items-center ">
             <div className="reply-text w-full bg-gray-700 p-2 rounded-lg">
-              <h2>Reply : {comment}</h2>
+              <h2>Reply :</h2>
               <hr />
               <div className="replied p-2 w-full">
                 {replies.map((reply, index) => (

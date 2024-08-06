@@ -1,24 +1,39 @@
-import React from "react";
-
+import { useDispatch, useSelector } from "react-redux";
 import Comment from "./Components/Comment";
+import InputBox from "./Components/InputBox";
+import React, { useState, useEffect } from "react";
+import { addComment } from "./store/Actions";
 
-const COMMENT_DATA = [
-  {
-    id: 1,
-    comment: "hey !",
-    replies: ["sid", "temp", "testing"],
-  },
-  {
-    id: 2,
-    comment: "hello sid !",
-    replies: ["sid", "temp", "testing"],
-  },
-];
+
 
 const App = () => {
+  const [newComment, setNewComment] = useState("");
+  const dispatch = useDispatch();
+  function handleAddComment() {
+    const Comment = { id: Date.now(), comment: newComment, replies: [] };
+
+    dispatch(addComment(Comment));
+    setContent("");
+  }
+
+  const COMMENT_DATA = useSelector((state) => state.comment);
+  console.log(COMMENT_DATA);
   return (
-    <div className="comment-container bg-slate-700 flex flex-col h-full items-center justify-center gap-5 ">
-      
+    <div className="comment-container bg-slate-700 py-6 flex flex-col items-center justify-center gap-5">
+      <div className="input-field flex gap-4  justify-between w-2/5 ">
+        <InputBox
+          text={"Add a comment..."}
+          display={null}
+          setNewComment={setNewComment}
+        />
+        <button
+          onClick={handleAddComment}
+          className="btn btn-outline btn-success "
+        >
+          Comment
+        </button>
+      </div>
+
       {COMMENT_DATA.map((comment, index) => (
         <Comment
           key={index}
