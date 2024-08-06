@@ -43,49 +43,58 @@ const App = () => {
   // !: Handling Deletion of comments
 
   const COMMENT_DATA = useSelector((state) => state.comments);
-  console.log(COMMENT_DATA);
+  // console.log(COMMENT_DATA);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // additional code to handle form data
+  };
+
   return (
-    <div className="comment-container bg-slate-700 py-6 flex flex-col items-center justify-center gap-5">
-      {/* Sid: This modal is hidden Initially */}
-      <Modal />
-      {/* Sid: This modal is hidden Initially */}
-      <div className="input-field flex gap-4  justify-between w-4/5 sm:w-2/5 ">
-        <InputBox
-          text={"Add a comment..."}
-          display={null}
-          setFunction={setNewComment}
-          value={newComment}
-        />
-        <button
-          onClick={handleAddComment}
-          className="btn btn-outline btn-success p-2 sm:p-4"
-        >
-          Comment
-        </button>
+    <form onSubmit={handleSubmit}>
+      <div className="comment-container bg-slate-700 py-6 flex flex-col items-center justify-center gap-5">
+        {/* Sid: This modal is hidden Initially */}
+        <Modal />
+        {/* Sid: This modal is hidden Initially */}
+        <div className="input-field flex gap-4  justify-between w-4/5 sm:w-2/5 ">
+          <InputBox
+            tagID={"commentInput"}
+            text={"Add a comment..."}
+            display={null}
+            setFunction={setNewComment}
+            value={newComment}
+          />
+          <button
+            onClick={handleAddComment}
+            className="btn btn-outline btn-success p-2 sm:p-4"
+          >
+            Comment
+          </button>
+        </div>
+        {COMMENT_DATA?.map((comment, index) => (
+          <Comment
+            key={index}
+            comment={comment.comment}
+            replies={comment.replies}
+            id={comment.id}
+          />
+        ))}
+        <div className="dangerous-btn flex gap-16">
+          <button
+            onClick={handleCommentsDelete}
+            className="bg-red-500 text-white p-2 rounded-md active:bg-red-600 "
+          >
+            Clear comments
+          </button>
+          <button
+            onClick={deleteLocalStorage}
+            className="bg-green-500 text-white p-2 rounded-md active:bg-green-600 "
+          >
+            Stop Saving
+          </button>
+        </div>
       </div>
-      {COMMENT_DATA?.map((comment, index) => (
-        <Comment
-          key={index}
-          comment={comment.comment}
-          replies={comment.replies}
-          id={comment.id}
-        />
-      ))}
-      <div className="dangerous-btn flex gap-16">
-        <button
-          onClick={handleCommentsDelete}
-          className="bg-red-500 text-white p-2 rounded-md active:bg-red-600 "
-        >
-          Clear comments
-        </button>
-        <button
-          onClick={deleteLocalStorage}
-          className="bg-green-500 text-white p-2 rounded-md active:bg-green-600 "
-        >
-          Stop Saving
-        </button>
-      </div>
-    </div>
+    </form>
   );
 };
 

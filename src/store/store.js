@@ -1,9 +1,9 @@
-import { comment } from "postcss";
 import {
   ADD_COMMENT,
   DELETE_REPLY,
   ADD_REPLY,
   DELETE_COMMENTS,
+  DELETE_SPECIFIC_COMMENT,
 } from "./actionTypes";
 import { createStore } from "redux";
 
@@ -11,7 +11,18 @@ import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 const initialState = {
-  comments: [],
+  comments: [
+    {
+      id: 1,
+      comment: "hey !",
+      replies: ["sid", "temp", "testing"],
+    },
+    {
+      id: 2,
+      comment: "hello sid !",
+      replies: ["sid", "temp", "testing"],
+    },
+  ],
 };
 
 const reducer = (state = initialState, action) => {
@@ -50,6 +61,14 @@ const reducer = (state = initialState, action) => {
     case DELETE_COMMENTS:
       return {
         comments: [],
+      };
+
+    case DELETE_SPECIFIC_COMMENT:
+      return {
+        ...state,
+        comments: state.comments.filter(
+          (comment) => comment.id !== action.payload.id
+        ),
       };
 
     default:

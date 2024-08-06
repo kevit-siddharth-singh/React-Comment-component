@@ -13,7 +13,7 @@ const Modal = () => {
 
       <dialog id="my_modal_1" className="modal">
         <div className="modal-box">
-          <h3 className="font-bold text-lg">Invalid Comment 😋</h3>
+          <h3 className="font-bold text-lg">Empty Input is Invalid Dude 😋</h3>
           <p className="py-4">Press ESC key or click the Close to close</p>
           <div className="modal-action">
             <form method="dialog">
