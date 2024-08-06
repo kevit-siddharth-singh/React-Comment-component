@@ -4,19 +4,21 @@ import InputBox from "./Components/InputBox";
 import React, { useState, useEffect } from "react";
 import { addComment } from "./store/Actions";
 
-
-
 const App = () => {
   const [newComment, setNewComment] = useState("");
   const dispatch = useDispatch();
+
+  // Sid : ADD COMMENT HANDLING FUNCTION
   function handleAddComment() {
     const Comment = { id: Date.now(), comment: newComment, replies: [] };
 
     dispatch(addComment(Comment));
     setContent("");
   }
+  // Sid : ADD COMMENT HANDLING FUNCTION
 
-  const COMMENT_DATA = useSelector((state) => state.comment);
+
+  const COMMENT_DATA = useSelector((state) => state.comments);
   console.log(COMMENT_DATA);
   return (
     <div className="comment-container bg-slate-700 py-6 flex flex-col items-center justify-center gap-5">
@@ -24,7 +26,7 @@ const App = () => {
         <InputBox
           text={"Add a comment..."}
           display={null}
-          setNewComment={setNewComment}
+          setFunction={setNewComment}
         />
         <button
           onClick={handleAddComment}

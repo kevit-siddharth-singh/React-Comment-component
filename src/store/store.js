@@ -1,8 +1,9 @@
-import { ADD_COMMENT, DELETE_COMMENT } from "./actionTypes";
+import { comment } from "postcss";
+import { ADD_COMMENT, DELETE_REPLY, ADD_REPLY } from "./actionTypes";
 import { createStore } from "redux";
 
 const initialState = {
-  comment: [
+  comments: [
     {
       id: 1,
       comment: "hey !",
@@ -21,14 +22,31 @@ const reducer = (state = initialState, action) => {
     case ADD_COMMENT:
       return {
         ...state,
-        comment: [...state.comment, action.payload],
+        comments: [...state.comments, action.payload],
       };
 
-    case DELETE_COMMENT:
+    case ADD_REPLY:
       return {
         ...state,
-        comment: state.comment.filter(
-          (comment) => comment.id !== action.payload
+        comments: state.comments.map((comment) =>
+          comment.id === action.payload.id
+            ? {
+                ...comment,
+                replies: [...comment.replies, action.payload.reply],
+              }
+            : comment
+        ),
+      };
+    case DELETE_REPLY:
+      return {
+        ...state,
+        comments: state.comments.map((comment) =>
+          comment.id === action.payload.id
+            ? {
+                ...comment,
+                replies: [],
+              }
+            : comment
         ),
       };
 

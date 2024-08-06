@@ -1,23 +1,17 @@
 // actions.js
-import {
-  ADD_COMMENT,
-  DELETE_COMMENT,
-  REPLY_COMMENT,
-} from "./actionTypes";
+import { ADD_COMMENT, ADD_REPLY, DELETE_REPLY } from "./actionTypes";
 
 export const addComment = (comment) => ({
   type: ADD_COMMENT,
   payload: comment,
 });
 
-
-
-export const deleteComment = (id) => ({
-  type: DELETE_COMMENT,
-  payload: id,
+export const addReply = (reply) => ({
+  type: ADD_REPLY,
+  payload: reply,
 });
 
-export const reply_comment = (comments) => ({
-  type: REPLY_COMMENT,
-  payload: comments,
+export const deleteReply = (reply) => ({
+  type: DELETE_REPLY,
+  payload: reply,
 });

@@ -1,23 +1,53 @@
 import React, { useState, useEffect } from "react";
 import InputBox from "./InputBox";
-
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addReply, deleteReply } from "../store/Actions";
 
 const Comment = ({ id, comment, replies }) => {
   const dispatch = useDispatch();
 
+  const COMMENT_DATA = useSelector((state) => state.comments);
+  console.log(COMMENT_DATA.map((comment) => comment));
+
   const [replyToggle, setReplyToggle] = useState(false);
   function handleReplyToggle() {
-    console.log(replyToggle);
+    // console.log(replyToggle);
     setReplyToggle(!replyToggle);
   }
+
+  // Sid : State for reply..
+  const [reply, setReply] = useState("");
+
+  // NOTE : ADD REPLY HANDLING FUNCTION
+  function handleReply() {
+    const replyData = {
+      id: id,
+      reply: reply,
+    };
+
+    dispatch(addReply(replyData));
+    setReply("");
+  }
+  // NOTE : ADD REPLY HANDLING FUNCTION
+
+  // Sid: Handling Deletion of Reply
+
+  function handleReplyDelete() {
+    const replyData = {
+      id: id,
+    };
+
+    dispatch(deleteReply(replyData));
+  }
+
+  // Sid: Handling Deletion of Reply
 
   return (
     <>
       <div className="comment-reply flex flex-col   bg-gray-800 w-2/5 p-10  rounded-xl ">
         <div className="reply-wrapper my-2 ">
           <p className="bg-slate-600 rounded-xl p-2 text-yellow-500 mb-6">
-          {comment}
+            {comment}
           </p>
           <div className="reply-data flex items-center ">
             <div className="reply-text w-full bg-gray-700 p-2 rounded-lg">
@@ -34,9 +64,31 @@ const Comment = ({ id, comment, replies }) => {
             <button className="reply text-blue-400" onClick={handleReplyToggle}>
               {replyToggle ? "Cancel" : "Reply"}
             </button>
-            <button className="delete text-red-500">Delete</button>
+
+            {replyToggle && (
+              <button
+                className="reply text-green-400 p-2"
+                onClick={handleReply}
+              >
+                Send
+              </button>
+            )}
+
+            {!replyToggle && (
+              <button
+                className="delete text-red-500 p-2"
+                onClick={handleReplyDelete}
+              >
+                Delete
+              </button>
+            )}
           </div>
-          <InputBox text="reply.." display={replyToggle ? null : "hidden"} />
+          <InputBox
+            text="reply.."
+            display={replyToggle ? null : "hidden"}
+            setFunction={setReply}
+            value={reply}
+          />
         </div>
       </div>
     </>
