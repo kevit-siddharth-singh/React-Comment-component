@@ -1,6 +1,6 @@
 import React from "react";
 
-const InputBox = ({ text, display, setFunction ,value}) => {
+const InputBox = ({ text, display, setFunction, value }) => {
   return (
     <div className="w-full">
       <input
@@ -10,7 +10,6 @@ const InputBox = ({ text, display, setFunction ,value}) => {
         value={value}
         onChange={(e) => setFunction(e.target.value)}
       />
-      
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import InputBox from "./InputBox";
 import { useDispatch, useSelector } from "react-redux";
 import { addReply, deleteReply } from "../store/Actions";
@@ -7,9 +7,9 @@ const Comment = ({ id, comment, replies }) => {
   const dispatch = useDispatch();
 
   const COMMENT_DATA = useSelector((state) => state.comments);
-  console.log(COMMENT_DATA.map((comment) => comment));
 
   const [replyToggle, setReplyToggle] = useState(false);
+  const [emptyReplies, setEmptyReplies] = useState(true);
   function handleReplyToggle() {
     // console.log(replyToggle);
     setReplyToggle(!replyToggle);
@@ -24,7 +24,7 @@ const Comment = ({ id, comment, replies }) => {
       id: id,
       reply: reply,
     };
-
+    setEmptyReplies(false);
     dispatch(addReply(replyData));
     setReply("");
   }
@@ -36,7 +36,7 @@ const Comment = ({ id, comment, replies }) => {
     const replyData = {
       id: id,
     };
-
+    setEmptyReplies(true);
     dispatch(deleteReply(replyData));
   }
 
@@ -44,7 +44,7 @@ const Comment = ({ id, comment, replies }) => {
 
   return (
     <>
-      <div className="comment-reply flex flex-col   bg-gray-800 w-2/5 p-10  rounded-xl ">
+      <div className="comment-reply flex flex-col bg-gray-800 w-4/5 p-5 sm:w-2/5 sm:p-10  rounded-xl ">
         <div className="reply-wrapper my-2 ">
           <p className="bg-slate-600 rounded-xl p-2 text-yellow-500 mb-6">
             {comment}
@@ -74,7 +74,7 @@ const Comment = ({ id, comment, replies }) => {
               </button>
             )}
 
-            {!replyToggle && (
+            {!emptyReplies && (
               <button
                 className="delete text-red-500 p-2"
                 onClick={handleReplyDelete}

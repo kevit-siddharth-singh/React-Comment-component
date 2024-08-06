@@ -1,23 +1,17 @@
 import { comment } from "postcss";
-import { ADD_COMMENT, DELETE_REPLY, ADD_REPLY } from "./actionTypes";
+import {
+  ADD_COMMENT,
+  DELETE_REPLY,
+  ADD_REPLY,
+  DELETE_COMMENTS,
+} from "./actionTypes";
 import { createStore } from "redux";
 
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 const initialState = {
-  comments: [
-    {
-      id: 1,
-      comment: "hey !",
-      replies: ["sid", "temp", "testing"],
-    },
-    {
-      id: 2,
-      comment: "hello sid !",
-      replies: ["sid", "temp", "testing"],
-    },
-  ],
+  comments: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -53,11 +47,15 @@ const reducer = (state = initialState, action) => {
         ),
       };
 
+    case DELETE_COMMENTS:
+      return {
+        comments: [],
+      };
+
     default:
       return state;
   }
 };
-
 const persistConfig = {
   key: "persist-store",
   storage,
