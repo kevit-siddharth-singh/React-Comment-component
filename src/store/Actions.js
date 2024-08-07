@@ -5,6 +5,7 @@ import {
   DELETE_REPLY,
   DELETE_COMMENTS,
   DELETE_SPECIFIC_COMMENT,
+  DELETE_SPECIFIC_REPLY,
 } from "./actionTypes";
 
 export const addComment = (comment) => ({
@@ -12,9 +13,9 @@ export const addComment = (comment) => ({
   payload: comment,
 });
 
-export const addReply = (reply) => ({
+export const addReply = (replyData) => ({
   type: ADD_REPLY,
-  payload: reply,
+  payload: replyData,
 });
 
 export const deleteReply = (reply) => ({
@@ -28,4 +29,8 @@ export const deleteSpecificComment = (commentData) => ({
 
 export const deleteComments = () => ({
   type: DELETE_COMMENTS,
+});
+export const deleteSpecificReply = (data) => ({
+  type: DELETE_SPECIFIC_REPLY,
+  payload: data,
 });

@@ -4,6 +4,7 @@ import {
   ADD_REPLY,
   DELETE_COMMENTS,
   DELETE_SPECIFIC_COMMENT,
+  DELETE_SPECIFIC_REPLY,
 } from "./actionTypes";
 import { createStore } from "redux";
 
@@ -15,12 +16,30 @@ const initialState = {
     {
       id: 1,
       comment: "hey !",
-      replies: ["sid", "temp", "testing"],
+      replies: [
+        {
+          id: 1,
+          reply: "sid",
+        },
+        {
+          id: 2,
+          reply: "sid",
+        },
+      ],
     },
     {
       id: 2,
       comment: "hello sid !",
-      replies: ["sid", "temp", "testing"],
+      replies: [
+        {
+          id: 1,
+          reply: "sid",
+        },
+        {
+          id: 2,
+          reply: "sid",
+        },
+      ],
     },
   ],
 };
@@ -37,14 +56,35 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         comments: state.comments.map((comment) =>
-          comment.id === action.payload.id
+          comment.id === action.payload.commentId
             ? {
                 ...comment,
-                replies: [...comment.replies, action.payload.reply],
+                replies: [
+                  ...comment.replies,
+                  {
+                    id: action.payload.replyId,
+                    reply: action.payload.reply,
+                  },
+                ],
               }
             : comment
         ),
       };
+    case DELETE_SPECIFIC_REPLY:
+      return {
+        ...state,
+        comments: state.comments.map((comment) =>
+          comment.id === action.payload.commentId
+            ? {
+                ...comment,
+                replies: comment.replies.filter(
+                  (reply) => reply.id !== action.payload.replyId
+                ),
+              }
+            : comment
+        ),
+      };
+
     case DELETE_REPLY:
       return {
         ...state,

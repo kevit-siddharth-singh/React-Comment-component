@@ -1,9 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import InputBox from "./InputBox";
 import { useDispatch, useSelector } from "react-redux";
-import { addReply, deleteReply, deleteSpecificComment } from "../store/Actions";
+import {
+  addReply,
+  deleteReply,
+  deleteSpecificComment,
+  deleteSpecificReply,
+} from "../store/Actions";
 
-const Comment = ({ id, comment, replies }) => {
+const Comment = ({ commentId, comment, replies }) => {
   const dispatch = useDispatch();
 
   const COMMENT_DATA = useSelector((state) => state.comments);
@@ -27,10 +32,12 @@ const Comment = ({ id, comment, replies }) => {
   const [reply, setReply] = useState("");
 
   // NOTE : ADD REPLY HANDLING FUNCTION
-  function handleReply() {
+  function handleReply(e) {
+    e.preventDefault();
     if (reply !== "") {
       const replyData = {
-        id: id,
+        commentId: commentId,
+        replyId: Date.now(),
         reply: reply,
       };
       setEmptyReplies(false);
@@ -46,7 +53,7 @@ const Comment = ({ id, comment, replies }) => {
 
   function handleReplyDelete() {
     const replyData = {
-      id: id,
+      id: commentId,
     };
     setEmptyReplies(true);
     dispatch(deleteReply(replyData));
@@ -54,11 +61,24 @@ const Comment = ({ id, comment, replies }) => {
 
   // Sid: Handling Deletion of Reply
 
+  // Sid: Handling Deletion of Specific Reply
+
+  function handleSpecificReplyDelete(id) {
+    const replyData = {
+      commentId: commentId,
+      replyId: id,
+    };
+
+    dispatch(deleteSpecificReply(replyData));
+  }
+
+  // Sid: Handling Deletion of Specific Reply
+
   // Note: Handling Deletion of Specific Comment
 
   function handleSpecificCommentDelete() {
     const commentData = {
-      id: id,
+      id: commentId,
     };
 
     dispatch(deleteSpecificComment(commentData));
@@ -86,9 +106,18 @@ const Comment = ({ id, comment, replies }) => {
               <h2>Reply :</h2>
               <hr />
               <div className="replied p-2 w-full">
-                {replies.map((reply, index) => (
-                  <p key={index}>{reply}</p>
+                {replies.map((reply) => (
+                  <div key={reply.id} className="flex justify-between">
+                    <p>{reply.reply}</p>
+                    <button
+                      onClick={() => handleSpecificReplyDelete(reply.id)}
+                      className="text-red-500"
+                    >
+                      Clear
+                    </button>
+                  </div>
                 ))}
+                {/* {console.log({ replies })} */}
               </div>
             </div>
           </div>
@@ -107,7 +136,7 @@ const Comment = ({ id, comment, replies }) => {
               </button>
             )}
 
-            {!emptyReplies && (
+            {replies.length !== 0 && (
               <button
                 className="delete text-red-500 p-2"
                 onClick={handleReplyDelete}
@@ -117,12 +146,17 @@ const Comment = ({ id, comment, replies }) => {
             )}
           </div>
           {replyToggle && (
-            <InputBox
-              tagID={"replyInput"}
-              text="reply.."
-              setFunction={setReply}
-              value={reply}
-            />
+            <form
+              onSubmit={(e) => handleReply(e)}
+              
+            >
+              <InputBox
+                tagID={"replyInput"}
+                text="reply.."
+                setFunction={setReply}
+                value={reply}
+              />
+            </form>
           )}
         </div>
       </div>
