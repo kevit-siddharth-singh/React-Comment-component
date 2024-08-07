@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import InputBox from "./InputBox";
 import { useDispatch, useSelector } from "react-redux";
 import { addReply, deleteReply, deleteSpecificComment } from "../store/Actions";
@@ -9,7 +9,13 @@ const Comment = ({ id, comment, replies }) => {
   const COMMENT_DATA = useSelector((state) => state.comments);
 
   const [replyToggle, setReplyToggle] = useState(false);
-  const [emptyReplies, setEmptyReplies] = useState(true);
+  const [emptyReplies, setEmptyReplies] = useState(false);
+
+  useEffect(() => {
+    if (replies.length === 0) {
+      setEmptyReplies(true);
+    }
+  }, []);
 
   const InputRef = useRef(null);
 
